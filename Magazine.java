@@ -56,4 +56,11 @@ public class Magazine extends Document {
     public void setNgonNgu(String ngonNgu) {
         this.ngonNgu = ngonNgu;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +"So phat hanh: " + getSoPhatHanh() + ", Thang phat hanh: " + getThangPhatHanh()
+                + ", Ngon ngu: " + getNgonNgu();
+    }
+    
 }
