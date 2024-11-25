@@ -51,5 +51,10 @@ class Dia extends Document {
         this.loaiDia = loaiDia;
     }
 
+    @Override
+    public String toString() {
+        return super.toString()+ "Dung luong: " + getDungLuong() + ", loai dia: " + getLoaiDia();
+    }
+
 }
 
