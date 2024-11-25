@@ -156,38 +156,65 @@ public class danhSachTaiLieu {
     }
     
 
-public void ghiVaoFile(String fileName) throws IOException{
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
+public void ghiVaoFile(String tenTep) throws IOException{
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(tenTep))) {
+        if (DSTL.isEmpty()) {
+            bw.write("Danh sách tài liệu trống!");
+            return;
+        }
+
+        // Tách danh sách theo loại tài liệu
+        ArrayList<Book> sachList = new ArrayList<>();
+        ArrayList<Magazine> tapChiList = new ArrayList<>();
+        ArrayList<Dia> diaList = new ArrayList<>();
+
         for (Document doc : DSTL) {
-            String line = "";
             if (doc instanceof Book) {
-                Book book = (Book) doc;
-                line = "Book; ID: " + book.getId() + "; Ten: " + book.getName() + "; Ma so ke: " + book.getMaSoKe() + "; Nam: "
-                    + book.getNamxuatban() + "; So luong: " + book.getSoluong() + "; Tac gia: " + book.getTacgia() + "; The loai: "
-                    + book.getType() + "; Tinh trang: " + book.getTinhTrangTL() + "; Ma sach: " + book.getBookid() + "; Ngon ngu: " + book.getNgonNgu();
+                sachList.add((Book) doc);
             } else if (doc instanceof Magazine) {
-                Magazine magazine = (Magazine) doc;
-                line = "Magazine; ID: " + magazine.getId() + "; Ten: " + magazine.getName() + "; Ma so ke: " + magazine.getMaSoKe() + "; "
-                    + "Nam: " + magazine.getNamxuatban() + "; So luong: " + magazine.getSoluong() + "; Tac gia: " + magazine.getTacgia() + "; "
-                    + "The loai: " + magazine.getType() + "; Tinh trang: " + magazine.getTinhTrangTL() + "; So phat hanh: " + magazine.getSoPhatHanh() + "; "
-                    + "Thang phat hanh: " + magazine.getThangPhatHanh() + "; Ngon ngu: " + magazine.getNgonNgu();
+                tapChiList.add((Magazine) doc);
             } else if (doc instanceof Dia) {
-                Dia dia = (Dia) doc;
-                line = "Dia; ID: " + dia.getId() + "; Ten: " + dia.getName() + "; Ma so ke: " + dia.getMaSoKe() + "; "
-                    + "Nam: " + dia.getNamxuatban() + "; So luong: " + dia.getSoluong() + "; Tac gia: " + dia.getTacgia() + "; "
-                    + "The loai: " + dia.getType() + "; Tinh trang: " + dia.getTinhTrangTL() + "; Dung luong: " + dia.getDungLuong() + "; "
-                    + "Loai dia: " + dia.getLoaiDia();
+                diaList.add((Dia) doc);
             }
-            bw.write(line);
+        }
+
+        // Ghi danh sách sách
+        bw.write("=== Danh sach Sach ===");
+        bw.newLine();
+        for (Book sach : sachList) {
+            bw.write(sach.toString());
+            bw.newLine();
+            bw.write("-------------------");
+            bw.newLine();
+        }
+
+        // Ghi danh sách tạp chí
+        bw.write("=== Danh sach Tap Chi ===");
+        bw.newLine();
+        for (Magazine tapChi : tapChiList) {
+            bw.write(tapChi.toString()); // Giả sử bạn đã override phương thức toString()
+            bw.newLine();
+            bw.write("-------------------");
+            bw.newLine();
+        }
+
+        // Ghi danh sách đĩa
+        bw.write("=== Danh sach Dia ===");
+        bw.newLine();
+        for (Dia dia : diaList) {
+            bw.write(dia.toString()); // Giả sử bạn đã override phương thức toString()
+            bw.newLine();
+            bw.write("-------------------");
             bw.newLine();
         }
         bw.close();
-        System.out.println("Da ghi du lieu vao file: " + fileName);
+
+        System.out.println("Da ghi du lieu vao file: " + tenTep);
     } catch (IOException e) {
         System.out.println("Loi khi ghi file: " + e.getMessage());
     }
 }
-
+    
 public void docTuFile(String fileName) throws IOException {
     try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
         String line;
@@ -199,7 +226,7 @@ public void docTuFile(String fileName) throws IOException {
             }
 
             String loaiTaiLieu = arr[0];
-            String ten = "", id = "", maSoKe = "", nam = "", soLuong = "", tacGia = "", theLoai = "", tinhTrang = "", maSach = "", ngonNgu = "";
+            String ten = "", id = "", ten = "", maSoKe = "", nam = "", soLuong = "", tacGia = "", theLoai = "", tinhTrang = "", maSach = "", ngonNgu = "";
             String soPhatHanh = "", thangPhatHanh = "", dungLuong = "", loaiDia = "";
 
             for (String pair : arr) {
@@ -287,7 +314,7 @@ public void docTuFile(String fileName) throws IOException {
                             !tacGia.isEmpty() && !theLoai.isEmpty() && !tinhTrang.isEmpty() && !dungLuong.isEmpty() &&
                             !loaiDia.isEmpty()) {
                             DSTL.add(new Dia(
-                                ten, id, maSoKe, Integer.parseInt(nam),
+                                id, ten, maSoKe, Integer.parseInt(nam),
                                 Integer.parseInt(soLuong), tacGia, theLoai,
                                 tinhTrang, Double.parseDouble(dungLuong), loaiDia
                             ));
