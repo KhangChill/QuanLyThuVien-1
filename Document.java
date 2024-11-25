@@ -147,5 +147,12 @@ public class Document implements NhapXuat {
         this.tinhTrangTL = tinhTrangTL;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + getId() + ", Ten: " + getName() + ", Ma so ke: " + getMaSoKe()
+                + ", Nam xuat ban" + getNamxuatban() + ", So luong: " + getSoluong() + ", Tac gia: "
+                + getTacgia() + ", The loai: " + getType() + ", Tinh trang: " + getTinhTrangTL() + ", ";
+    }
+
 }
 
