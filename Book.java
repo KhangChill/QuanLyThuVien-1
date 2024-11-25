@@ -45,4 +45,9 @@ public class Book extends Document {
         this.ngonNgu = ngonNgu;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + "Ma sach: " + getBookid() + ", Ngon ngu:  " + getNgonNgu();
+    }
+
 }
